@@ -15,9 +15,6 @@
             <th>概要</th>
             <th>上映中</th>
         </tr>
-        {{-- @php
-        dd($movieList);
-        @endphp --}}
 
         @foreach($movieList as $movie)
             <tr>
