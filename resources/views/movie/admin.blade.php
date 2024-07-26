@@ -14,6 +14,7 @@
             <th>公開年</th>
             <th>概要</th>
             <th>上映中</th>
+            <th>編集</th>
         </tr>
 
         @foreach($movieList as $movie)
@@ -23,6 +24,9 @@
                 <td>{{ $movie->published_year }}</td>
                 <td>{{ $movie->description }}</td>
                 <td>{{ $movie->is_showing ? '上映中' : '上映予定' }}</td>
+                <td>
+                    <a href="/admin/movies/{{ $movie->id }}/edit">編集</a>
+                </td>
             </tr>
         @endforeach
     </table>

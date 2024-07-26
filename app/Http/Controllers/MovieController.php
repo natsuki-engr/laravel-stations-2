@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateMovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 
@@ -35,6 +36,20 @@ class MovieController extends Controller
             "description" => $request->get('description'),
             "is_showing" => $request->get('is_showing', false),
         ])->save();
+
+        return redirect('/admin/movies');
+    }
+
+    public function edit($id)
+    {
+        return view('movie/edit', ['movie' => Movie::find($id)]);
+    }
+
+    public function update($id, UpdateMovieRequest $request)
+    {
+        $validated = $request->validated();
+        Movie::where('id', $id)
+            ->update($validated);
 
         return redirect('/admin/movies');
     }
