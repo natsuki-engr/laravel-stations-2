@@ -6,12 +6,36 @@ use App\Http\Requests\CreateMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::all();
+        $isShowing = $request->get('is_showing');
+        $keyword = $request->get('keyword', '');
+        $page = $request->get('page', '');
+
+        $query = DB::table('movies');
+
+        if ($isShowing === '0' || $isShowing === '1') {
+            $query->where('is_showing', $isShowing);
+        }
+
+        if (strlen($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%$keyword%")
+                    ->orWhere('description', 'like', "%$keyword%");
+            });
+        }
+
+        if(strlen($page)) {
+            $query->offset(($page - 1) * 20);
+            $query->limit(20);
+        }
+
+        $movies = $query->get();
+
         return view('movies', ['movieList' => $movies]);
     }
 
