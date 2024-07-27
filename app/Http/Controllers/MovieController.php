@@ -53,4 +53,14 @@ class MovieController extends Controller
 
         return redirect('/admin/movies');
     }
+
+    public function destroy($id)
+    {
+        $deleted = Movie::where('id', $id)->delete();
+        if ($deleted) {
+            return redirect('/admin/movies');
+        } else {
+            return response('Not Found', 404);
+        }
+    }
 }

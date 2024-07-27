@@ -15,6 +15,7 @@
             <th>概要</th>
             <th>上映中</th>
             <th>編集</th>
+            <th>削除</th>
         </tr>
 
         @foreach($movieList as $movie)
@@ -26,6 +27,9 @@
                 <td>{{ $movie->is_showing ? '上映中' : '上映予定' }}</td>
                 <td>
                     <a href="/admin/movies/{{ $movie->id }}/edit">編集</a>
+                </td>
+                <td>
+                    <a href="/admin/movies/{{ $movie->id }}/delete">削除</a>
                 </td>
             </tr>
         @endforeach
