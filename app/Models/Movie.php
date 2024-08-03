@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Movie wherePublishedYear($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Movie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Movie whereUpdatedAt($value)
+ * @property-read \App\Models\Genre|null $genre
  * @mixin \Eloquent
  */
 class Movie extends Model
