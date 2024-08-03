@@ -14,6 +14,7 @@
             <th>公開年</th>
             <th>概要</th>
             <th>上映中</th>
+            <th>ジャンル</th>
             <th>編集</th>
             <th>削除</th>
         </tr>
@@ -25,6 +26,7 @@
                 <td>{{ $movie->published_year }}</td>
                 <td>{{ $movie->description }}</td>
                 <td>{{ $movie->is_showing ? '上映中' : '上映予定' }}</td>
+                <td>{{ $movie->genre_id }}</td>
                 <td>
                     <a href="/admin/movies/{{ $movie->id }}/edit">編集</a>
                 </td>

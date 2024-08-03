@@ -19,6 +19,7 @@ class MovieFactory extends Factory
             'published_year' => $this->faker->year,
             'description' => $this->faker->realText(20),
             'is_showing' => $this->faker->boolean,
+            'genre_id' => $this->faker->numberBetween(\DB::table('genres')->min('id'), \DB::table('genres')->max('id')),
         ];
     }
 }

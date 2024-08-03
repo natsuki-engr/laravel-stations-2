@@ -32,7 +32,9 @@
         <label style="display: block;">概要:
             <textarea required name="description" id="" cols="30" rows="10"></textarea>
         </label>
-
+        <label style="display: block;">ジャンル:
+            <input type="text" name="genre">
+        </label>
         <button type="submit">保存</button>
     </form>
 </body>
