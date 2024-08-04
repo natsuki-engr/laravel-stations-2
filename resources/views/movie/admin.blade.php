@@ -9,6 +9,7 @@
 <body>
     <table>
         <tr>
+            <th>id</th>
             <th>タイトル</th>
             <th>画像パス</th>
             <th>公開年</th>
@@ -21,6 +22,7 @@
 
         @foreach($movieList as $movie)
             <tr>
+                <td>{{ $movie->id }}</td>
                 <td>{{ $movie->title }}</td>
                 <td>{{ $movie->image_url }}</td>
                 <td>{{ $movie->published_year }}</td>

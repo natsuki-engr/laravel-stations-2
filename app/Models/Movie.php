@@ -43,4 +43,9 @@ class Movie extends Model
     {
         return $this->hasOne(Genre::class, 'id', 'genre_id');
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

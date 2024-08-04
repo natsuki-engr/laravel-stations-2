@@ -7,12 +7,13 @@ use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MovieController extends Controller
 {
-    public function index(Request $request)
+    public function list(Request $request)
     {
         $isShowing = $request->get('is_showing');
         $keyword = $request->get('keyword', '');
@@ -136,5 +137,15 @@ class MovieController extends Controller
         } else {
             return response('Not Found', 404);
         }
+    }
+
+    public function index($id)
+    {
+        $movie = Movie::find($id);
+        $schedules = Schedule::where('movie_id', $movie->id)
+            ->orderBy('start_time')
+            ->get();
+
+        return view('movie/index', ['movie' => $movie, 'schedules' => $schedules]);
     }
 }
