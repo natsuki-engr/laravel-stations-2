@@ -141,7 +141,7 @@ class MovieController extends Controller
 
     public function index($id)
     {
-        $movie = Movie::find($id);
+        $movie = Movie::whereId($id)->first();
         $schedules = Schedule::where('movie_id', $movie->id)
             ->orderBy('start_time')
             ->get();

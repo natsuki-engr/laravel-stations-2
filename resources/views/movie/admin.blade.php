@@ -22,7 +22,9 @@
 
         @foreach($movieList as $movie)
             <tr>
-                <td>{{ $movie->id }}</td>
+                <td>
+                    <a href="/admin/movies/{{ $movie->id}}">{{ $movie->id }}</a>
+                </td>
                 <td>{{ $movie->title }}</td>
                 <td>{{ $movie->image_url }}</td>
                 <td>{{ $movie->published_year }}</td>

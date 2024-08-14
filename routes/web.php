@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SheetController;
 
 /*
@@ -27,15 +28,27 @@ Route::get('/practice3', [PracticeController::class, 'sample3']);
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 
 Route::get('/movies', [MovieController::class, 'list']);
-
-Route::get('/admin/movies', [MovieController::class, 'admin']);
-Route::get('/admin/movies/create', [MovieController::class, 'create']);
-Route::post('/admin/movies/store', [MovieController::class, 'store']);
-Route::get('/admin/movies/{id}/edit/', [MovieController::class, 'edit']);
-Route::patch('/admin/movies/{id}/update/', [MovieController::class, 'update']);
-Route::delete('/admin/movies/{id}/destroy/', [MovieController::class, 'destroy']);
-
 Route::get('/movies/{id}', [MovieController::class, 'index']);
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/movies', [MovieController::class, 'admin']);
+    Route::get('/movies/create', [MovieController::class, 'create']);
+    Route::post('/movies/store', [MovieController::class, 'store']);
+    Route::get('/movies/{id}/edit/', [MovieController::class, 'edit']);
+    Route::patch('/movies/{id}/update/', [MovieController::class, 'update']);
+    Route::delete('/movies/{id}/destroy/', [MovieController::class, 'destroy']);
+
+    Route::get('/movies/{id}', [MovieController::class, 'index']);
+
+    Route::get('/movies/{id}/schedules/create/', [ScheduleController::class, 'create']);
+    Route::post('/movies/{id}/schedules/store/', [ScheduleController::class, 'store']);
+
+    Route::get('/schedules', [ScheduleController::class, 'schedules']);
+    Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
+    Route::get('/schedules/{id}/edit/', [ScheduleController::class, 'edit']);
+    Route::post('/schedules/{id}/update/', [ScheduleController::class, 'update']);
+    Route::post('/schedules/{id}/destroy/', [ScheduleController::class, 'destroy']);
+});
 
 Route::group(['prefix' => 'sheets'], function () {
     Route::get('/', [SheetController::class, 'index']);

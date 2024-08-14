@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|Movie whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Movie whereUpdatedAt($value)
  * @property-read \App\Models\Genre|null $genre
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Schedule> $schedules
+ * @property-read int|null $schedules_count
  * @mixin \Eloquent
  */
 class Movie extends Model
