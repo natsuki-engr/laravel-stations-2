@@ -6,6 +6,7 @@ use App\Http\Requests\CreateScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Movie;
 use App\Models\Schedule;
+use Illuminate\Support\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -32,6 +33,16 @@ class ScheduleController extends Controller
         $schedule->movie_id = $request->movie_id;
         $schedule->start_time = $request->start_time_date . ' ' . $request->start_time_time;
         $schedule->end_time = $request->end_time_date . ' ' . $request->end_time_time;
+        $startTime = new Carbon($schedule->start_time);
+        $endTime = new Carbon($schedule->end_time);
+        $diff = $startTime->diffInMinutes($endTime, false);
+
+        if ($diff <= 5) {
+            session()->flash('error', 'start_time_date');
+
+            return redirect()->back()->withErrors(['start_time_time' => 'The schedule must be at least 5 minutes long.', 'end_time_time' => 'The schedule must be at least 5 minutes long.']);
+        }
+
         $schedule->save();
 
         return redirect('/admin/movies/' . $request->movie_id);
@@ -47,6 +58,13 @@ class ScheduleController extends Controller
         $schedule = Schedule::whereId($id)->first();
         $schedule->start_time = $request->start_time_date . ' ' . $request->start_time_time;
         $schedule->end_time = $request->end_time_date . ' ' . $request->end_time_time;
+        $startTime = new Carbon($schedule->start_time);
+        $endTime = new Carbon($schedule->end_time);
+        $diff = $startTime->diffInMinutes($endTime, false);
+        if ($diff <= 5) {
+            return redirect()->back()->withErrors(['start_time_time' => 'The schedule must be at least 5 minutes long.', 'end_time_time' => 'The schedule must be at least 5 minutes long.']);
+        }
+
         $schedule->save();
 
         return redirect('/admin/movies/' . $schedule->movie_id);
