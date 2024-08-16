@@ -162,7 +162,7 @@ class AdminScheduleTest extends TestCase
             'start_time' => $startTime,
             'end_time' => $endTime,
         ]);
-        $response = $this->patch('/admin/schedules/' . $scheduleId . '/update', [
+        $response = $this->post('/admin/schedules/' . $scheduleId . '/update', [
             'movie_id' => $movieId,
             'start_time_date' => $startTime->addHours(2)->format('Y-m-d'),
             'start_time_time' => $startTime->addHours(2)->format('H:i'),
@@ -185,7 +185,7 @@ class AdminScheduleTest extends TestCase
             'start_time' => $startTime,
             'end_time' => $endTime,
         ]);
-        $response = $this->patch('/admin/schedules/' . $scheduleId . '/update', [
+        $response = $this->post('/admin/schedules/' . $scheduleId . '/update', [
             'movie_id' => null,
             'start_time_date' => null,
             'start_time_time' => null,
@@ -206,7 +206,7 @@ class AdminScheduleTest extends TestCase
             'start_time' => $startTime,
             'end_time' => $endTime,
         ]);
-        $response = $this->patch('/admin/schedules/' . $scheduleId . '/update', [
+        $response = $this->post('/admin/schedules/' . $scheduleId . '/update', [
             'movie_id' => $movieId,
             'start_time_date' => '2022/01/01',
             'start_time_time' => '01時00分',

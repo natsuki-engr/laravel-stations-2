@@ -59,6 +59,7 @@ class AdminReservationTest extends TestCase
     public function test管理者予約一覧で上映終了の映画が非表示となっているか(): void
     {
         $count = 12;
+        $sheets = Sheet::all();
         for ($i = 0; $i < $count; $i++) {
             $movieId = $this->createMovie('タイトル'.$i)->id;
             Reservation::insert([
@@ -68,7 +69,7 @@ class AdminReservationTest extends TestCase
                     'start_time' => new CarbonImmutable('2020-01-01 00:00:00'),
                     'end_time' => new CarbonImmutable('2020-01-01 02:00:00'),
                 ]),
-                'sheet_id' => $i + 1,
+                'sheet_id' => $sheets[$i]->id,
                 'email' => 'sample@exmaple.com',
                 'name' => 'サンプル太郎',
             ]);
@@ -133,10 +134,11 @@ class AdminReservationTest extends TestCase
     {
         $movieId = $this->createMovie('タイトル')->id;
         $scheduleId = $this->createSchedule($movieId)->id;
+        $sheet = Sheet::first();
         $reservationId = Reservation::insertGetId([
             'date' => new CarbonImmutable(),
             'schedule_id' => $scheduleId,
-            'sheet_id' => 1,
+            'sheet_id' => $sheet->id,
             'email' => 'sample@exmaple.com',
             'name' => 'サンプル太郎',
         ]);
@@ -148,17 +150,18 @@ class AdminReservationTest extends TestCase
     {
         $movieId = $this->createMovie('タイトル')->id;
         $scheduleId = $this->createSchedule($movieId)->id;
+        $sheet = Sheet::first();
         $reservationId = Reservation::insertGetId([
             'date' => new CarbonImmutable(),
             'schedule_id' => $scheduleId,
-            'sheet_id' => 1,
+            'sheet_id' => $sheet->id,
             'email' => 'sample@exmaple.com',
             'name' => 'サンプル太郎',
         ]);
-        $response = $this->patch('/admin/reservations/'.$reservationId, [
+        $response = $this->post('/admin/reservations/'.$reservationId, [
             'movie_id' => $movieId,
             'schedule_id' => $scheduleId,
-            'sheet_id' => 2,
+            'sheet_id' => $sheet->id,
             'name' => 'サン太郎',
             'email' => 'sample@techbowl.com',
         ]);
@@ -166,21 +169,22 @@ class AdminReservationTest extends TestCase
         $updated = Reservation::find($reservationId);
         $this->assertEquals($updated->name, 'サン太郎');
         $this->assertEquals($updated->email, 'sample@techbowl.com');
-        $this->assertEquals($updated->sheet_id, 2);
+        $this->assertEquals($updated->sheet_id, $sheet->id);
     }
 
     public function test更新時Requiredバリデーションが設定されているか(): void
     {
         $movieId = $this->createMovie('タイトル')->id;
         $scheduleId = $this->createSchedule($movieId)->id;
+        $sheet = Sheet::first();
         $reservationId = Reservation::insertGetId([
             'date' => new CarbonImmutable(),
             'schedule_id' => $scheduleId,
-            'sheet_id' => 1,
+            'sheet_id' => $sheet->id,
             'email' => 'sample@exmaple.com',
             'name' => 'サンプル太郎',
         ]);
-        $response = $this->patch('/admin/reservations/'.$reservationId, [
+        $response = $this->post('/admin/reservations/'.$reservationId, [
             'movie_id' => null,
             'schedule_id' => null,
             'sheet_id' => null,
@@ -218,10 +222,11 @@ class AdminReservationTest extends TestCase
     {
         $movieId = $this->createMovie('タイトル')->id;
         $scheduleId = $this->createSchedule($movieId)->id;
+        $sheet = Sheet::first();
         $reservationId = Reservation::insertGetId([
             'date' => new CarbonImmutable(),
             'schedule_id' => $scheduleId,
-            'sheet_id' => 1,
+            'sheet_id' => $sheet->id,
             'email' => 'sample@exmaple.com',
             'name' => 'サンプル太郎',
         ]);

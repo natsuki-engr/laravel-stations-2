@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateReservationRequest;
 use App\Models\Reservation;
 use DB;
+use Log;
 
 class SheetReservationController
 {
@@ -28,6 +29,7 @@ class SheetReservationController
             $reservation->save();
             DB::commit();
         } catch (\Throwable $e) {
+            Log::error($e);
             DB::rollBack();
             return back()->withErrors(['error' => 'an error occurred']);
         }

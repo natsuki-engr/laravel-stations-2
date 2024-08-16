@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Reservation
@@ -37,4 +38,8 @@ class Reservation extends Model
 
     protected $fillable = ['date', 'schedule_id', 'sheet_id', 'name', 'email', 'is_canceled'];
 
+    public function sheet(): HasOne
+    {
+        return $this->hasOne(Sheet::class, 'id', 'sheet_id');
+    }
 }

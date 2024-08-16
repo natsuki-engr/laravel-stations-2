@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\MovieController;
@@ -54,7 +55,16 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/schedules/{id}', [ScheduleController::class, 'index']);
     Route::get('/schedules/{id}/edit/', [ScheduleController::class, 'edit']);
     Route::post('/schedules/{id}/update/', [ScheduleController::class, 'update']);
-    Route::post('/schedules/{id}/destroy/', [ScheduleController::class, 'destroy']);
+    Route::delete('/schedules/{id}/destroy/', [ScheduleController::class, 'destroy']);
+
+    Route::group(['prefix' => 'reservations'], function () {
+        Route::get('/', [AdminReservationController::class, 'list'])->name('admin.reservations');
+        Route::get('/create', [AdminReservationController::class, 'create']);
+        Route::post('/', [AdminReservationController::class, 'store']);
+        Route::get('/{id}/edit', [AdminReservationController::class, 'edit']);
+        Route::post('/{id}', [AdminReservationController::class, 'update']);
+        Route::delete('/{id}', [AdminReservationController::class, 'delete']);
+    });
 });
 
 Route::group(['prefix' => 'sheets'], function () {
