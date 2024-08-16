@@ -8,6 +8,7 @@ use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Schedule;
+use App\Models\Sheet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -147,5 +148,40 @@ class MovieController extends Controller
             ->get();
 
         return view('movie/index', ['movie' => $movie, 'schedules' => $schedules]);
+    }
+
+    public function sheets($movie_id, $schedule_id, Request $request)
+    {
+        $date = $request->get('date');
+        if(is_null($date)) {
+            return response('Bad Request: date is necessary in query', 400);
+        }
+
+        $rawSheets = Sheet::orderBy('row')
+            ->orderBy('column')
+            ->get()
+            ->toArray();
+
+        for ($i = 0; $i < count($rawSheets) / 5; $i++) {
+            $sheets[] = array_slice($rawSheets, $i * 5, 5);
+        }
+
+        return view('movie/sheets', [
+            'movie_id' => $movie_id,
+            'schedule_id' => $schedule_id,
+            'sheets' => $sheets,
+            'date' => $date,
+        ]);
+    }
+
+    public function reserveSheet(Request $request)
+    {
+        $date = $request->get('date');
+        $sheetId = $request->get('sheetId');
+        if(is_null($date) || is_null($sheetId)) {
+            return response('Bad Request', 400);
+        }
+
+        return view('movie/sheets-reserve');
     }
 }
