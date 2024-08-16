@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\Sheet;
 use Illuminate\Support\Facades\DB;
@@ -174,10 +175,19 @@ class MovieController extends Controller
         ]);
     }
 
-    public function reserveSheet(Request $request)
+    public function reserveSheet(Request $request, $movie_id, $schedule_id)
     {
         $date = $request->get('date');
         $sheetId = $request->get('sheetId');
+
+        $exists = Reservation::where([
+            'schedule_id' => $schedule_id,
+            'sheet_id' => $sheetId,
+        ])->exists();
+        if($exists) {
+            return response('Already reserved', 400);
+        }
+
         if(is_null($date) || is_null($sheetId)) {
             return response('Bad Request', 400);
         }
